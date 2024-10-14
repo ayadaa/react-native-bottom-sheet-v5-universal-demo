@@ -24,6 +24,10 @@ export default function TabOneScreen() {
     setItems((prev) => [...prev, `Item ${prev.length + 1}`]);
   }, []);
 
+  const removeItem = useCallback((index: number) => {
+    setItems((prev) => prev.filter((_, i) => i !== index));
+  }, []);
+
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
@@ -45,11 +49,7 @@ export default function TabOneScreen() {
     <View style={styles.container}>
       <Button title="Toggle BottomSheet" onPress={toggleBottomSheet} />
       <Button title="Add Item" onPress={addItem} />
-      <BottomSheet
-        ref={bottomSheetRef}
-        // snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-      >
+      <BottomSheet ref={bottomSheetRef} onChange={handleSheetChanges}>
         <BottomSheetView style={styles.contentContainer}>
           <Text style={{ marginBottom: 10 }}>
             Not so Awesome demo by ROFI 🥲
@@ -63,10 +63,13 @@ export default function TabOneScreen() {
                 padding: 10,
                 marginBottom: 5,
                 borderRadius: 5,
+                flexDirection: "row",
+                justifyContent: "space-between",
                 alignItems: "center",
               }}
             >
               <Text>{item}</Text>
+              <Button title="Remove" onPress={() => removeItem(index)} />
             </View>
           ))}
         </BottomSheetView>
