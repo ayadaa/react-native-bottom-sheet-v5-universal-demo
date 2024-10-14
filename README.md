@@ -2,6 +2,8 @@
 
 This is a demo for the react-native-bottom-sheet library that makes a simple bottom sheet that toggles the BottomSheetView component and test the dynamic content feature on IOS and the web.
 
+![Demo Screenshot](https://share.cleanshot.com/Vvq4YhTJ/download)
+
 ## Installation
 
 ```bash
