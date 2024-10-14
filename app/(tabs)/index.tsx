@@ -1,31 +1,76 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { Button } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Text, View } from "@/components/Themed";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { useCallback, useRef, useState, useMemo } from "react";
 
 export default function TabOneScreen() {
+  const insets = useSafeAreaInsets();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const [items, setItems] = useState<string[]>([]);
+  // const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleBottomSheet = useCallback(() => {
+    if (isOpen) {
+      bottomSheetRef.current?.close();
+    } else {
+      bottomSheetRef.current?.expand();
+    }
+    setIsOpen(!isOpen);
+  }, [isOpen]);
+
+  const addItem = useCallback(() => {
+    setItems((prev) => [...prev, `Item ${prev.length + 1}`]);
+  }, []);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
+  const styles = {
+    container: {
+      flex: 1,
+      marginBottom: insets.bottom,
+      backgroundColor: "#d1d1d1",
+    },
+    contentContainer: {
+      alignItems: "center",
+      padding: 24,
+      paddingBottom: 10,
+    },
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <Button title="Toggle BottomSheet" onPress={toggleBottomSheet} />
+      <Button title="Add Item" onPress={addItem} />
+      <BottomSheet
+        ref={bottomSheetRef}
+        // snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+      >
+        <BottomSheetView style={styles.contentContainer}>
+          <Text style={{ marginBottom: 10 }}>
+            Not so Awesome demo by ROFI 🥲
+          </Text>
+          {items.map((item, index) => (
+            <View
+              key={`item-${index}`}
+              style={{
+                backgroundColor: "#d1d1d1",
+                width: "100%",
+                padding: 10,
+                marginBottom: 5,
+                borderRadius: 5,
+                alignItems: "center",
+              }}
+            >
+              <Text>{item}</Text>
+            </View>
+          ))}
+        </BottomSheetView>
+      </BottomSheet>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
