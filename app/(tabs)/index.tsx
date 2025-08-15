@@ -39,7 +39,7 @@ export default function TabOneScreen() {
       backgroundColor: "#d1d1d1",
     },
     contentContainer: {
-      alignItems: "center",
+      // alignItems: "center",
       padding: 24,
       paddingBottom: 10,
     },
@@ -51,27 +51,30 @@ export default function TabOneScreen() {
       <Button title="Add Item" onPress={addItem} />
       <BottomSheet ref={bottomSheetRef} onChange={handleSheetChanges}>
         <BottomSheetView style={styles.contentContainer}>
-          <Text style={{ marginBottom: 10 }}>
-            Not so Awesome demo by ROFI 🥲
-          </Text>
-          {items.map((item, index) => (
-            <View
-              key={`item-${index}`}
-              style={{
-                backgroundColor: "#d1d1d1",
-                width: "100%",
-                padding: 10,
-                marginBottom: 5,
-                borderRadius: 5,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Text>{item}</Text>
-              <Button title="Remove" onPress={() => removeItem(index)} />
-            </View>
-          ))}
+        {/* <BottomSheetView> */}
+          {/* <View style={styles.contentContainer}> */}
+            <Text style={{ marginBottom: 10 }}>
+              Not so Awesome demo by ROFI 🥲
+            </Text>
+            {items.map((item, index) => (
+              <View
+                key={`item-${index}`}
+                style={{
+                  backgroundColor: "#d1d1d1",
+                  width: "100%",
+                  padding: 10,
+                  marginBottom: 5,
+                  borderRadius: 5,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text>{item}</Text>
+                <Button title="Remove" onPress={() => removeItem(index)} />
+              </View>
+            ))}
+          {/* </View> */}
         </BottomSheetView>
       </BottomSheet>
     </View>
